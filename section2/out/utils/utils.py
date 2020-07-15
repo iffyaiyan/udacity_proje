@@ -96,7 +96,7 @@ def med_reshape(image, new_shape):
     reshaped_image = np.zeros(new_shape)
 
     # TASK: write your original image into the reshaped image
-    # <CODE GOES HERE>
+    
     dim1, dim2, dim3 = image.shape
     reshaped_image[:dim1, :dim2, :dim3] = image
 

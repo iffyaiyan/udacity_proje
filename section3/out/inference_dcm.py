@@ -61,7 +61,7 @@ def get_predicted_volumes(pred):
     """
 
     # TASK: Compute the volume of your hippocampal prediction
-    # <YOUR CODE HERE>
+   
     dim1, dim2, dim3 = pred.shape
     volume_ant = volume_post = 0
     for i in range(dim1):
@@ -242,7 +242,7 @@ def get_series_for_inference(path):
     # certain way. Can you figure out which is that? 
     # Hint: inspect the metadata of HippoCrop series
 
-    # <YOUR CODE HERE>
+    
     series_for_inference = []
     for dicom in dicoms:
         if dicom.SeriesDescription == 'HippoCrop':
