@@ -97,8 +97,7 @@ class UNetExperiment:
             # shape [BATCH_SIZE, 1, PATCH_SIZE, PATCH_SIZE] into variables data and target. 
             # Feed data to the model and feed target to the loss function
             # 
-            # data = <YOUR CODE HERE>
-            # target = <YOUR CODE HERE>
+            
             data = batch['image'].float()
             target = batch['seg']
 
