@@ -1,6 +1,15 @@
-# Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression
+# AIHND-Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression
 
 
+# Hippocampal-Volume-Quantification-in-Alzheimer
+
+# Content
+
+- *Overview*
+- *Project Goal*
+- *Dataset*
+- *Local Environment*
+- *Project Steps*
 
 
 ## Overview
@@ -13,33 +22,35 @@ A radiological study via MRI exam is currently one of the most advanced methods 
 
 The hippocampus is a critical structure of the human brain (and the brain of other vertebrates) that plays important roles in the consolidation of information from short-term memory to long-term memory. In other words, the hippocampus is thought to be responsible for memory and learning.
 
-![Hippocampus](./readme.img/Hippocampus_small.gif)
+
 
 Humans have two hippocampi, one in each hemishpere of the brain. They are located in the medial temporal lobe of the brain. Fun fact - the word "hippocampus" is roughly translated from Greek as "horselike" because of the similarity to a seahorse, a peculiarity observed by one of the first anatomists to illustrate the structure.
 
-<img src="./readme.img/Hippocampus_and_seahorse_cropped.jpg" width=200/>
+
+
 
 According to [studies](https://www.sciencedirect.com/science/article/pii/S2213158219302542), the volume of the hippocampus varies in a population, depending on various parameters, within certain boundaries, and it is possible to identify a "normal" range when taking into account age, sex and brain hemisphere.
 
-<img src="./readme.img/nomogram_fem_right.svg" width=300>
 
 There is one problem with measuring the volume of the hippocampus using MRI scans, though - namely, the process tends to be quite tedious since every slice of the 3D volume needs to be analyzed, and the shape of the structure needs to be traced. The fact that the hippocampus has a non-uniform shape only makes it more challenging. Do you think you could spot the hippocampi in this axial slice?
 
-<img src="./readme.img/mri.jpg" width=200>
 
-I built a piece of AI software that could help clinicians perform this task faster and more consistently. I focused on the technical aspects of building a segmentation model and integrating it into the clinician's workflow, leaving the dataset curation and model validation questions largely outside the scope of this project.
 
-## Project Goal
+As you might have guessed by now, we are going to build a piece of AI software that could help clinicians perform this task faster and more consistently.
 
-I built an end-to-end AI system which features a machine learning algorithm that integrates into a clinical-grade viewer and automatically measures hippocampal volumes of new patients, as their studies are committed to the clinical imaging archive.
+You have seen throughout the course that a large part of AI development effort is taken up by curating the dataset and proving clinical efficacy. In this project, we will focus on the technical aspects of building a segmentation model and integrating it into the clinician's workflow, leaving the dataset curation and model validation questions largely outside the scope of this project.
+## What You Will Build/Project Goal
+In this project you will build an end-to-end AI system which features a machine learning algorithm that integrates into a clinical-grade viewer and automatically measures hippocampal volumes of new patients, as their studies are committed to the clinical imaging archive.
 
-I used the dataset that contains the segmentations of the right hippocampus and the U-Net architecture to build the segmentation model.
+Fortunately you won't have to deal with full heads of patients. Our (fictional) radiology department runs a HippoCrop tool which cuts out a rectangular portion of a brain scan from every image series, making your job a bit easier, and our committed radiologists have collected and annotated a dataset of relevant volumes, and even converted them to NIFTI format!
 
-After that, I integrated the model into a working clinical PACS such that it runs on every incoming study and produces a report with volume measurements.
+You will use the dataset that contains the segmentations of the right hippocampus and you will use the U-Net architecture to build the segmentation model.
+
+After that, you will proceed to integrate the model into a working clinical PACS such that it runs on every incoming study and produces a report with volume measurements.
 
 ## The Dataset
 
-I used the "Hippocampus" dataset from the [Medical Decathlon competition](http://medicaldecathlon.com/). This dataset is stored as a collection of NIFTI files, with one file per volume, and one file per corresponding segmentation mask. The original images here are T2 MRI scans of the full brain. As noted, in this dataset I used cropped volumes where only the region around the hippocampus has been cut out. This makes the size of the dataset quite a bit smaller, the machine learning problem a bit simpler and allows me to have reasonable training times.
+I used the "Hippocampus" dataset from the [Medical Decathlon competition](http://medicaldecathlon.com/). This dataset is stored as a collection of NIFTI files, with one file per volume, and one file per corresponding segmentation mask. The original images here are T2 MRI scans of the full brain. As noted, in this dataset I used cropped volumes where only the region around the hippocampus has been cut out. This makes the size of the dataset quite a bit smaller, the machine learning problem a bit simpler and allows me to have reasonable training times.You should not think of it as "toy" problem, though. Algorithms that crop rectangular regions of interest are quite common in medical imaging. Segmentation is still hard.
 
 ## Local Environment
 
@@ -63,16 +74,25 @@ In the 3rd section of the project, I worked with three software products for emu
 * [DCMTK tools](https://dcmtk.org/) for testing and emulating a modality. Note that if you are running a Linux distribution, you might be able to install dcmtk directly from the package manager (e.g. `apt-get install dcmtk` in Ubuntu)
 
 ## Project Steps
+#### The Project has been divided into 3 sections namely
 
 ### Section 1: Curating a dataset of Brain MRIs
 
-<img src="./readme.img/Slicer.png" width=400em>
+
 
 The data is located in `/data/TrainingSet` directory [here](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/tree/master/data/TrainingSet). I curated the dataset using [Final Project EDA.ipynb](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section1/Final%20Project%20EDA.ipynb).
 
+#### Expected results
+
+Please put the artefacts from Section 1 here:  
+  
+* Curated dataset with labels, as collection of NIFTI files. If you correctly identified the misfits you should have 260 images and 260 labels.
+* A Python Notebook with the results of your Exploratory Data Analysis. If you prefer to do it in raw Python file, that is also acceptable - in that case put the `.py` file there, making sure that you copy Task descriptions from the notebook into your comments.
+
+
 ### Section 2: Training a segmentation CNN
 
-<img src="./readme.img/loss.png" width=400em>
+
 
 I used [PyTorch](https://pytorch.org/) to train the model and [Tensorboard](https://www.tensorflow.org/tensorboard/) to visualize the results.
 
@@ -82,24 +102,43 @@ Run the script [run_ml_pipeline.py](https://github.com/iDataist/Hippocampal-Volu
 
 After that, Tensorboard will write logs into directory called `runs` and you will be able to view progress by opening the browser and navigating to default port 6006 of the machine where you are running it.
 
+#### Expected results
+
+Please put the artefacts from Section 2 here:  
+  
+* Functional code that trains the segmentation model
+* Test report with Dice scores on test set (can be a json file). Your final average Dice with the default model should be around .90
+* Screenshots from your Tensorboard (or other visualization engine) output, showing Train and Validation loss plots, along with images of the predictions that your model is making at different stages of training
+* Your trained model PyTorch parameter file (`model.pth`)
+
+#### Suggestions for making your project stand out
+
+* Can you write a 1-page email explaining what your algorithm is doing to a clinician who will be trying it out, but whom you never met? Make sure you include performance characteristics with some images. Try using their language and think of what would be the important information that they are looking for?
+* Implement additional metrics in the test report such as Jaccard score, sensitivity or specificity. Think of what additional metrics would be relevant.
+* In our dataset we have labels of 2 classes - anterior and posterior segments of the hippocampus. Can you train a version of model that segments the structure as a whole, only using one class? Is the performance better, the same or worse?
+* Write up a short report explaining requirements for your training process (compute, memory) and suggestions for making it more efficient (model architecture, data pipeline, loss functions, data augmentation). What kind of data augmentations would NOT add value?
+* What are best and worst performing volumes? Why do you think that's the case?
+
+
 ### Section 3: Integrating into a clinical network
 
-<img src="./readme.img/ohif.png" width=400em>
+This is the final section
 
 I created an AI product that can be integrated into a clinical network and provide the auto-computed information on the hippocampal volume to the clinicians. The local environment replicates the following clinical network setup:
 
-<img src="./readme.img/network_setup.png" width=400em>
 
-Specifically, I have the following software in this setup:
+#### Expected results
 
-* MRI scanner is represented by a script [section3/src/deploy_scripts/send_volume.sh](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/deploy_scripts/send_volume.sh). When you run this script it will simulate what happens after a radiological exam is complete, and send a volume to the clinical PACS. Note that scanners typically send entire studies to archives.
-* PACS server is represented by [Orthanc](http://orthanc-server.com/) deployment that is listening to DICOM DIMSE requests on port 4242. Orthanc also has a DicomWeb interface that is exposed at port 8042, prefix /dicom-web. The PACS server is also running an auto-routing module that sends a copy of everything it receives to an AI server.
-* Viewer system is represented by [OHIF](http://ohif.org/). It is connecting to the Orthanc server using DicomWeb and is serving a web application on port 3000.
-* AI server is represented by a couple of scripts. [section3/src/deploy_scripts/start_listener.sh](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/deploy_scripts/start_listener.sh) brings up a DCMTK's `storescp` and configures it to just copy everything it receives into a directory that you will need to specify by editing this script, organizing studies as one folder per study.
+Please put the artefacts from Section 3 here:  
+  
+* Code that runs inference on a DICOM volume and produces a DICOM report
+* A report.dcm file with a sample report
+* Screenshots of your report shown in the OHIF viewer
+* 1-2 page Validation Plan
 
-[inference_dcm.py](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/inference_dcm.py) will analyze the directory of the AI server that contains the routed studies, find the right series to run the AI algorithm on, will generate report, and push it back to PACS.
+#### Suggestions for making your project stand out
 
-In real system you would architect things a bit differently. Probably, AI server would be a separate piece of software that would monitor the output of the listener, and would manage multiple AI modules, deciding which one to run, automatically. In this case, for the sake of simplicity, all code sits in one Python script that was run manually after simulating an exam via the [deploy_scripts/send_volume.sh](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/deploy_scripts/send_volume.sh) script - [inference_dcm.py](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/inference_dcm.py). It combines the functions of processing of the listener output and executing the model.
-
-
-The [deploy_scripts/send_volume.sh](https://github.com/iDataist/Hippocampal-Volume-Quantification-in-Alzheimer-s-Progression/blob/master/section3/src/deploy_scripts/send_volume.sh) script needs to be run from directory `section3/src` (because it relies on relative paths). An MRI scan will be sent to the PACS and to the AI module which will compute the volume, prepare the report and push it back to the PACS so that it could be inspected in our clinical viewer. At this point, go to *[YOUR IP ADDRESS]*:3000 which brings up the OHIF viewer. 
+* Can you propose a better way of filtering a study for correct series?
+* Can you think of what would make the report you generate from your inference better? What would be the relevant information that you could present which would help a clinician better reason about whether your model performed well or not?
+* Try to construct a fully valid DICOM as your model output (per [DICOM PS3.3#A8](http://dicom.nema.org/medical/dicom/current/output/html/part03.html#sect_A.8)) with all relevant fields. Construction of valid DICOM has a very calming effect on the mind and body.
+* Try constructing a DICOM image with your segmentation mask as a separate image series so that you can overlay it on the original image using the clinical image viewer and inspect the predicted volume better. Note that OHIF does not support overlaying - try using Slicer 3D or Radiant (Fusion feature). Include screenshots.
